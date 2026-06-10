@@ -1,8 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AuditPage from './pages/AuditPage';
 import AdminLogin from './admin/AdminLogin';
-import AdminLeads from './admin/AdminLeads';
+import AdminDashboard from './admin/AdminDashboard';
 import AdminLayout from './admin/AdminLayout';
 
 function App() {
@@ -14,10 +14,16 @@ function App() {
         <Route path="/audit" element={<AuditPage />} />
         
         {/* Admin Routes */}
-        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin" element={<Navigate to="/admin/leads" replace />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        
+        {/* Protected Admin Routes */}
         <Route element={<AdminLayout />}>
-          <Route path="/admin/leads" element={<AdminLeads />} />
+          <Route path="/admin/leads" element={<AdminDashboard />} />
         </Route>
+
+        {/* Catch-all Redirect */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
