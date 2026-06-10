@@ -24,7 +24,7 @@ const AdminDashboard = () => {
   const fetchLeads = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:3001/api/admin/leads', {
+      const response = await axios.get('/api/admin/leads', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setLeads(response.data);
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
 
   const handleUpdateLead = async (id, updates) => {
     try {
-      await axios.put(`http://localhost:3001/api/admin/leads/${id}`, updates, {
+      await axios.put(`/api/admin/leads/${id}`, updates, {
         headers: { Authorization: `Bearer ${token}` }
       });
       // Update local state instead of re-fetching for better UX
@@ -61,7 +61,7 @@ const AdminDashboard = () => {
 
   const handleExport = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/admin/leads/export', {
+      const response = await axios.get('/api/admin/leads/export', {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob'
       });

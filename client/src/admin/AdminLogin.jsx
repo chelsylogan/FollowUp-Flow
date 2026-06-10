@@ -13,7 +13,7 @@ const AdminLogin = () => {
     setStatus('loading');
     
     try {
-      const response = await axios.post('http://localhost:3001/api/admin/login', { password });
+      const response = await axios.post('/api/admin/login', { password });
       if (response.data.success) {
         sessionStorage.setItem('adminToken', response.data.token);
         navigate('/admin/leads');

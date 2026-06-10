@@ -59,7 +59,7 @@ const AuditPage = () => {
 
     setStatus('loading');
     try {
-      await axios.post('http://localhost:3001/api/submissions', formData);
+      await axios.post('/api/submissions', formData);
       setStatus('success');
       window.scrollTo(0, 0);
     } catch (err) {

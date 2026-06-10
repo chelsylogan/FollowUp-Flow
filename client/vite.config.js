@@ -8,4 +8,12 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  // In local dev, proxy relative /api calls to the Express dev server
+  // (server/index.js). In production these resolve to same-origin Vercel
+  // serverless functions, so no proxy is needed.
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3001',
+    },
+  },
 })
