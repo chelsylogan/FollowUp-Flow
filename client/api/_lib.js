@@ -3,10 +3,27 @@
 import { createClient } from '@libsql/client/web';
 import { createHash } from 'node:crypto';
 
-export const db = createClient({
-  url: process.env.TURSO_DATABASE_URL,
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
+// Create the Turso client lazily on first use. Doing this at module load
+// would throw on a missing/invalid TURSO_DATABASE_URL and crash every
+// function that imports this file (even ones that never query the DB).
+let _client;
+function getClient() {
+  if (!_client) {
+    const url = process.env.TURSO_DATABASE_URL;
+    if (!url) {
+      throw new Error('TURSO_DATABASE_URL environment variable is not set');
+    }
+    _client = createClient({ url, authToken: process.env.TURSO_AUTH_TOKEN });
+  }
+  return _client;
+}
+
+// Thin wrapper so callers can keep using `db.execute(...)` unchanged while
+// initialization stays lazy.
+export const db = {
+  execute: (...args) => getClient().execute(...args),
+  batch: (...args) => getClient().batch(...args),
+};
 
 // Lazily create the table once per cold start. A fresh Turso DB needs no
 // manual migration step this way.
