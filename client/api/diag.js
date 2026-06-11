@@ -20,5 +20,5 @@ export default async function handler(req, res) {
     dbTest = { ok: false, error: String(e?.message || e) };
   }
 
-  res.json({ version: 'diag-1', env, dbTest });
+  res.json({ version: 'diag-2', env, dbTest });
 }
