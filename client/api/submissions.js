@@ -35,7 +35,6 @@ export default async function handler(req, res) {
     return res.status(201).json({ success: true, leadId: Number(result.lastInsertRowid) });
   } catch (error) {
     console.error('Database error:', error);
-    // TEMPORARY: surface the underlying error to aid debugging the deploy.
-    return res.status(500).json({ error: 'Failed to submit form', detail: String(error?.message || error) });
+    return res.status(500).json({ error: 'Failed to submit form' });
   }
 }
